@@ -1,7 +1,7 @@
 /*
 *Autor: Henrique Fernandes Viana Mendes
 *Data: 10/09/2019
-*Programa para contar quantos componentes existem no grafo
+*Programa para contar quantos componentes existem no grafo utilizando o algoritmo Busca por Profundidade
 *
 *Funcionamento:
 *    Busca por profundidade adaptado:
@@ -16,30 +16,30 @@ using namespace std;
 
 /* 
 *Metodo para percorrer cada componente do grafo
-*   parametros: 
+*Parametros: 
 *   v       = vertice atual
 *   matriz  = matriz de adjacencias do grafo
 *   vertice = vetor de cor de cada vertice
-*   tamanho       = tamanho da matriz 
+*   tamanho  = tamanho da matriz 
 */
-void metodo(int v, int **matriz, int vertice[], int tamanho){
+void percorreMatriz(int v, int **matriz, int vertice[], int tamanho){
 
-    vertice[v] = 1;                             //a cor do vertice atual passa a ser cinza
-    cout << (char)(v+97) << ",";                //printa o vertice (o + 97 eh pela tabela ascii)
+    vertice[v] = 1;                                             //a cor do vertice atual passa a ser cinza
+    cout << (char)(v+97) << ",";                                //printa o vertice (o + 97 eh pela tabela ascii)
 
     for(int i = 0; i < tamanho; i++){ 
-        if(matriz[v][i] == 1){                  //se a o vertice visto for adjacente ao vertice atual,
-            if(vertice[i] == 0){                //e a cor dele for branca,
-                metodo(i, matriz, vertice, tamanho);  //chama recursivamente o metodo com este vertice adjacente
+        if(matriz[v][i] == 1){                                  //se a o vertice visto for adjacente ao vertice atual,
+            if(vertice[i] == 0){                                //e a cor dele for branca,
+                percorreMatriz(i, matriz, vertice, tamanho);    //chama recursivamente o metodo com este vertice adjacente
             }
         }    
     }
-    vertice[v] = 2;                             //a cor do vertice em que todos os seus adjacentes ja foram percorridos vira preto
+    vertice[v] = 2;                                             //a cor do vertice em que todos os seus adjacentes ja foram percorridos vira preto
 }
 
 /*
-*metodo para criar e inicializar a matriz de adjacencias
-*parametros:
+*Metodo para criar e inicializar a matriz de adjacencias
+*Parametros:
 *   tamanho = tamanho da matriz
 */
 int** criaMatriz(int tamanho){
@@ -58,10 +58,9 @@ int** criaMatriz(int tamanho){
 }
 
 
-
 /*
-*metodo para criar e inicializar o vetor de cores
-*parametros:
+*Metodo para criar e inicializar o vetor de cores
+*Parametros:
 *    tamanho = tamanho do vetor ( quantidade de vertices de grafo )
 */
 int* criaVetor(int tamanho){
@@ -75,7 +74,8 @@ int* criaVetor(int tamanho){
 
 /*
 *Metodo para printar a matriz de adjacencias ( nao eh utilizado no codigo )
-*parametros:
+*Se quiser utiliza-lo, eh so colocar na main, depois de acrescentadas as arestas na matriz
+*Parametros:
 *   matriz = a matriz de adjacencias desejada
 *   tamanho = tamanho da matriz
 */
@@ -89,7 +89,7 @@ void printMatriz(int **matriz, int tamanho){
 }
 
 /*
-*Metodo para acrescentar as arestas existentes na amtriz de adjacencias
+*Metodo para acrescentar as arestas existentes na matriz de adjacencias
 *Parametros;
 *   matriz = matriz de adjacencias
 *   e = quantidade de arestas existentes no grafo
@@ -136,7 +136,7 @@ int main(){
         for(int i = 0; i < tamanho; i++){           //para cada vertice branco, entra no metodo que ira percorrer todos os vertices daquele componente
             if(vertice[i]==0){                      //se o grafo passar dessa verificacao mais de 1 vez, significa que ele tem mais de um componente
                 cont++;                             //cont = quantidade de componentes
-                metodo(i,matriz,vertice, tamanho);
+                percorreMatriz(i,matriz,vertice, tamanho);
                 cout <<"\n";
             }
         }
