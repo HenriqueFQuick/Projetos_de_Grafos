@@ -80,12 +80,17 @@ int* criaVetor(int tamanho){
 *   tamanho = tamanho da matriz
 */
 void printMatriz(int **matriz, int tamanho){
-    for(int i = 0; i < tamanho; i++){           
+    cout << "\n    ";
+    for(int i = 0; i < tamanho; i ++) cout << (char)(97 + i) << " ";
+    cout << "\n\n";
+    for(int i = 0; i < tamanho; i++){
+        cout << (char)(97 + i) << "   ";           
             for(int j = 0; j < tamanho; j++){
                 cout << matriz[i][j] << " ";
             }
             cout << "\n";
     }
+    cout << "\n";
 }
 
 /*
@@ -131,6 +136,8 @@ int main(){
 
         acrescentaArestas(matriz, e);           //acrescenta as arestas na matriz de adjacencias
 
+        //printMatriz(matriz, tamanho);         //chamada para printa a matriz de adjacencias (extra, apenas visualizacao)
+
         cout << "Case " << c << "#:\n";
 
         for(int i = 0; i < tamanho; i++){           //para cada vertice branco, entra no metodo que ira percorrer todos os vertices daquele componente
@@ -140,7 +147,7 @@ int main(){
                 cout <<"\n";
             }
         }
-        cout << cont << " connected components\n";
+        cout << cont << " connected components\n\n";
 
     c++;    
     }
