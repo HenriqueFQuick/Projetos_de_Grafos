@@ -1,3 +1,14 @@
+/*
+*Autor: Henrique Fernandes Viana Mendes
+*Data: 30/09/2019
+*Programa para retornar o peso da AGM (ARvore Geradora Minima) de um grafo, utilizando o algoritmo de PRIM
+*
+*Funcionamento:
+*           TODO - ADICIONAR O FUNCIONAMENTO DO PROGRAMA, EXPLICANDO PRIM 
+*   
+*Entrada:
+*   Numero de grafos, numero de vertices, uma linha para cada vertice informando sua posicao em um plano cartesiano
+*/
 #include <iostream>
 #include <cmath>
 using namespace std;
