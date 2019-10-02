@@ -31,26 +31,32 @@ bool dijkstra(int vertice, int tamanho, int** matriz){
         for(int i = 0; i < tamanho; i++){
             if((d[i] != -1) && (i != menor) && (matriz[menor][i] != 0) && (matriz[menor][i]+d[menor] < d[i])){
                 d[i] = matriz[menor][i]+d[menor];
-                pai[i] = menor;
             }
         }
         d[menor] = -1;
+
         for(int j = 0; j < tamanho; j++){
-            if(d[j] != 999999999){
+            if(d[j] == 999999999){
+                int c2 = 0;
                 int* dist = new int[tamanho];
                 for(int i = 0; i < tamanho; i++){
                     dist[i] = 999999999;
                 }
                 dist[j] = 0;
-                int menor2 = menorValor(dist, tamanho);
-                for(int i = 0; i < tamanho; i++){
-                    if((dist[i] != -1) && (i != menor2) && (matriz[menor2][i] != 0) && (matriz[menor2][i]+dist[menor2] < dist[i])){
-                        dist[i] = matriz[menor2][i]+dist[menor2];
+                while(c2 < tamanho){
+                    int menor2 = menorValor(dist, tamanho);
+                    for(int i = 0; i < tamanho; i++){
+                        if((dist[i] != -1) && (i != menor2) && (matriz[menor2][i] != 0) && (matriz[menor2][i]+dist[menor2] < dist[i])){
+                            dist[i] = matriz[menor2][i]+dist[menor2];
+                        }
                     }
+                    dist[menor2] = -1;
+                    c2++;
+                    int menor3 = menorValor(dist, tamanho);
+                    if(dist[menor3] == 999999999) c2 = tamanho;
                 }
-
                 if(dist[menor] == 999999999){
-                    return false;
+                        return false;
                 }
             }
         }
