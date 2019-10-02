@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdbool.h>
 using namespace std;
 
 int menorValor(int* v, int tamanho){
@@ -13,7 +14,7 @@ int menorValor(int* v, int tamanho){
     return a;     
 }
 
-void dijkstra(int vertice, int tamanho, int** matriz, int inicial){
+bool dijkstra(int vertice, int tamanho, int** matriz){
     int* d = new int[tamanho];
     int* pai = new int[tamanho];
 
@@ -34,27 +35,43 @@ void dijkstra(int vertice, int tamanho, int** matriz, int inicial){
             }
         }
         d[menor] = -1;
+        for(int j = 0; j < tamanho; j++){
+            if(d[j] != 999999999){
+                int* dist = new int[tamanho];
+                for(int i = 0; i < tamanho; i++){
+                    dist[i] = 999999999;
+                }
+                dist[j] = 0;
+                int menor2 = menorValor(dist, tamanho);
+                for(int i = 0; i < tamanho; i++){
+                    if((dist[i] != -1) && (i != menor2) && (matriz[menor2][i] != 0) && (matriz[menor2][i]+dist[menor2] < dist[i])){
+                        dist[i] = matriz[menor2][i]+dist[menor2];
+                    }
+                }
+
+                if(dist[menor] == 999999999){
+                    return false;
+                }
+            }
+        }
         c++;
     }
-    for(int j = 0; j < tamanho; j++){
-        if(d[j] != -1){
-            
-
-        }
-    }
+    return true;
 }
 
-void inicializaMatriz(int** matriz, int relacoes){
-    while(relacoes > 0){
+void inicializaMatriz(int** matriz, int relacoes, int tam){ 
 
-        int a,b;
+    
+    while(relacoes > 0){ 
+        int a, b;    
         cin >> a;
         cin >> b;
-
-        matriz[a][b] = 1;
-
+        
+        matriz[a-1][b-1] = 1;
+   
         relacoes--;
     }
+
 }
 
 int** CriaMatriz(int tamanho){
@@ -75,12 +92,21 @@ int main(){
     int vertices, relacoes;
     cin >> vertices;
     cin >> relacoes;
-    while(relacoes > 0){
 
-        int** matriz = CriaMatriz(vertices);
+        int** matriz = CriaMatriz(vertices); 
+        inicializaMatriz(matriz, relacoes, vertices);
+        /*for(int i = 0; i < vertices; i++){
+            for(int j = 0; j < vertices; j++){
+                cout << matriz[i][j] << " ";
+            }
+            cout << "\n";
+        }*/
 
-        relacoes--;
-    }
+        bool resultDjk = dijkstra(0,vertices,matriz);
+        if(resultDjk){
+            cout << "Bolada";
+        }else cout << "Nao Bolada";
+
 
     return 0;
 }
