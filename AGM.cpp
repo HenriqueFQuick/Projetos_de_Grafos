@@ -41,17 +41,18 @@ void printMatriz(int **matriz, int tamanho){
 *   v = vetor desejado
 *   tamanho = tamanho do vetor
 */
-double menorValor(double* v, int tamanho){
+int menorValor(double* v, int tamanho){
     double menor = 999999999.0;
+    //cout << "tamanho: " << tamanho << "\n";
     int a = 0;
     for(int i = 0; i < tamanho; i++){
-        if((v[i] != -1) && v[i] < menor){
+        //cout <<"vetor["<<i<<"] :" << v[i] << " ";
+        if((v[i] != -1) && (v[i] < menor)){
             menor = v[i];
             a = i;
         }
     }
-    v[a] = -1;
-    return menor;     
+    return a;     
 }
 
 /*
@@ -63,9 +64,8 @@ double menorValor(double* v, int tamanho){
 double* inicializaVetor(int tamanho){
     double* vet = new double[tamanho];
     for(int i = 0 ; i < tamanho; i++){
-        vet[i] = 999999999.0;                                                   //Inicializa o vetor colocando 999999999 em cada posicao
-    }
-    vet[0] = -1;                                                                //Na posicao 0 eh colocado -1 para indicar que eh o comeco
+        vet[i] = 999999.0;                                                   //Inicializa o vetor colocando 999999999 em cada posicao
+    }                                                               //Na posicao 0 eh colocado -1 para indicar que eh o comeco
     return vet;
 }
 
@@ -79,16 +79,20 @@ double PRIM(int tamanho, double** matrizDistancia){
     double* vet = inicializaVetor(tamanho);                                     //Inicializo o vetor
     int c = 0;
     double contador = matrizDistancia[0][0];
+    vet[0] = -1;
+    int menor = 0;
     while(c < tamanho-1){
         for(int i = 0; i < tamanho; i ++){
-            if((c != i)&&(vet[i] != -1)){
-                if(matrizDistancia[c][i] < vet[i]){
-                    vet[i] = matrizDistancia[c][i];
+            if((menor != i)&&(vet[i] != -1)){
+                if(matrizDistancia[menor][i] < vet[i]){
+                    vet[i] = matrizDistancia[menor][i];
                 }
             }
         }
-        double menor = menorValor(vet, tamanho);                                //Pegar o menor valor do vetor
-        contador = contador + menor;                                            //Incrementar o contador com o peso do vertice adicionado na AGM
+        menor = menorValor(vet, tamanho);                                //Pegar o menor valor do vetor
+        //cout <<"\nMenor: "<< vet[menor] << "\n";
+        contador = contador + vet[menor];                                    //Incrementar o contador com o peso do vertice adicionado na AGM
+        vet[menor] = -1;
         c++;
     }
     return contador;
@@ -110,9 +114,15 @@ double** criaMatriz(int* x, int* y, int tamanho){
 
     for(int i = 0; i < tamanho; i++){           
         for(int j = 0; j < tamanho; j++){
-            matriz[i][j] = sqrt(pow((x[j] - x[i]), 2)+pow((y[j] - y[i]),2));    //Inicializa a matriz com as distancias de cada ponto
+            matriz[i][j] = (double)sqrt(pow((x[j] - x[i]), 2)+pow((y[j] - y[i]),2));    //Inicializa a matriz com as distancias de cada ponto
         }                                                                       //Sendo calcladas com a formula sqrt((X2-X1)^2 + (Y2-Y1)^2)
-    }                                                                           //(Distancia entre 2 pontos do plano cartesiano)
+    }     
+    /*for(int i = 0; i < tamanho; i++){           
+        for(int j = 0; j < tamanho; j++){
+            cout << matriz[i][j] << " ";
+        }
+        cout <<"\n";                                                                       
+    }*/                                                                 
     return matriz;
 }
 

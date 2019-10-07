@@ -24,19 +24,21 @@ using namespace std;
 *   vertice = vetor de cor de cada vertice
 *   tamanho  = tamanho da matriz 
 */
-void percorreMatriz(int v, int **matriz, int *vertice, int tamanho){
+int* percorreMatriz(int v, int **matriz, int *vertice, int tamanho, int* vetor){
 
     vertice[v] = 1;                                             //a cor do vertice atual passa a ser cinza
-    cout << (char)(v+97) << ",";                                //printa o vertice (o + 97 eh pela tabela ascii)
+    //cout << (char)(v+97) << ",";                                //printa o vertice (o + 97 eh pela tabela ascii)
+    vetor[v] = v;
 
     for(int i = 0; i < tamanho; i++){ 
         if(matriz[v][i] == 1){                                  //se a o vertice visto for adjacente ao vertice atual,
             if(vertice[i] == 0){                                //e a cor dele for branca,
-                percorreMatriz(i, matriz, vertice, tamanho);    //chama recursivamente o metodo com este vertice adjacente
+                vetor = percorreMatriz(i, matriz, vertice, tamanho, vetor);    //chama recursivamente o metodo com este vertice adjacente
             }
         }    
     }
     vertice[v] = 2;                                             //a cor do vertice em que todos os seus adjacentes ja foram percorridos vira preto
+    return vetor;
 }
 
 /*
@@ -115,6 +117,23 @@ void acrescentaArestas(int** matriz, int e){
         }
 }
 
+void swap(int* xp, int* yp){
+    int temp = *yp;
+    *xp = *yp;
+    *yp = temp;
+}
+
+int* ordenarVetor(int* vetor, int tam){
+    int min;
+    for(int i = 0; i < tam; i++){
+        min = i;
+        for(int j = i+1; j < tam; j++)
+            if(vetor[j] < vetor[min])
+                min = j;
+            swap(vetor[min], vetor[i]);
+    }
+}
+
 
 int main(){
 
@@ -138,12 +157,22 @@ int main(){
 
         acrescentaArestas(matriz, e);           //acrescenta as arestas na matriz de adjacencias
 
-        cout << "Case " << c << "#:\n";
+        cout << "Case #" << c << ":\n";
 
         for(int i = 0; i < tamanho; i++){           //para cada vertice branco, entra no metodo que ira percorrer todos os vertices daquele componente
             if(vertice[i]==0){                      //se o grafo passar dessa verificacao mais de 1 vez, significa que ele tem mais de um componente
                 cont++;                             //cont = quantidade de componentes
-                percorreMatriz(i,matriz,vertice, tamanho);
+                int* vetor = new int[tamanho];
+                for(int j = 0; j < tamanho; j++){
+                    vetor[j] = -1;
+                }
+                vetor = percorreMatriz(i,matriz,vertice, tamanho, vetor);
+                ordenarVetor(vetor, tamanho);
+                for(int i = 0; i < tamanho; i++){
+                    if(vetor[i] != -1){
+                        cout << (char)(vetor[i]+97) << ",";
+                    }
+                }
                 cout <<"\n";
             }
         }
