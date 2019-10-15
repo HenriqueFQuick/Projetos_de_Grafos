@@ -6,22 +6,73 @@ tenham chegado ou ate nao ter mais caminho entre os 2 vertices desejados
 #include<iostream>
 using namespace std;
 
+void printMatriz(int **matriz, int tamanho){
+    cout << "\n    ";
+    for(int i = 0; i < tamanho; i ++) 
+    cout << (char)(97 + i) << " ";
+    cout << "\n\n";
+    for(int i = 0; i < tamanho; i++){
+        cout << (char)(97 + i) << "   ";           
+            for(int j = 0; j < tamanho; j++){
+                cout << matriz[i][j] << " ";
+            }
+            cout << "\n";
+    }
+    cout << "\n";
+}
+
+int menorValor(int* v, int tamanho){
+    int menor = 999999999;
+    int a = 0;
+    for(int i = 0; i < tamanho; i++){
+        if((v[i] != -1) && (v[i] < menor)){
+            menor = v[i];
+            a = i;
+        }
+    }
+    return a;     
+}
+
 int* inicializaVetor(int vertices, int valor){
     int* vet = new int[vertices];
     for(int i = 0; i < vertices; i++){
         vet[i] = valor;
     }
+
     return vet;
 }
 
 int Djisktra(int** matriz, int vertices){
     int* vetValores = inicializaVetor(vertices, 999999999);
+    vetValores[0] = -1;
     int* vetPai = inicializaVetor(vertices, -1);
-    
+    int menor = 0; 
+    int c = 0;
+
+    while(c < vertices){
+        for(int i = 0; i < vertices; i++){
+            if((vetValores[i] != -1) && (matriz[menor][i] != -1) && (i != menor) && (vetValores[i] > vetValores[menor] + matriz[menor][i])){
+                vetValores[i] = vetValores[menor] + matriz[menor][i];
+                vetPai[i] = menor;
+            }
+        }
+
+        vetValores[menor] = -1;
+        menor = menorValor(vetValores, vertices);
+        matriz[vetPai[menor]][menor] = -1;
+        c++;
+    }
+    int retorno = 0;
+    for(int i = 0; i < vertices; i++){
+        if(vetValores[i] != -1){
+            retorno = -1;
+        }
+    }
+    return retorno;
 
 }
 
-int** colocaValores(int** matriz, int arestas){
+int** colocaValores(int** matriz, int arestas, int tamanho){
     
     int A,B,C;
     while(arestas > 0){
@@ -30,10 +81,20 @@ int** colocaValores(int** matriz, int arestas){
         cin >> B;
         cin >> C;
 
-        matriz[A][B] = C;
-
-        arestas--;
+        matriz[A-1][B-1] = C;
+       
+        arestas = arestas-1;
     }
+
+    /*for(int i = 0; i < tamanho; i ++) { 
+            for(int j = 0; j < tamanho; j++){
+                cout << matriz[i][j] << " ";
+            }
+            cout << "\n";
+    }
+    cout << "\n";*/
+
+
     return matriz;
 }
 
@@ -57,7 +118,7 @@ int** criaMatriz(int vertices, int arestas){
     }
 
     matriz = inicializaMatriz(matriz, vertices);
-    matriz = colocaValores(matriz, arestas);
+    matriz = colocaValores(matriz, arestas, vertices);
 
     return matriz;
 }
@@ -76,10 +137,13 @@ int main(){
     cin >> D;
     cin >> K;
 
+    //printMatriz(matriz, cidades);
+
     int valor = -1;
     while(D > 0){
         valor = Djisktra(matriz, cidades);
-        D -= K;
+        cout<< "AKI";
+        D = D - K;
     }
 
     cout << "Instancia " << instancia;

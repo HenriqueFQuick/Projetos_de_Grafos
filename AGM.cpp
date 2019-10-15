@@ -90,7 +90,6 @@ double PRIM(int tamanho, double** matrizDistancia){
             }
         }
         menor = menorValor(vet, tamanho);                                //Pegar o menor valor do vetor
-        //cout <<"\nMenor: "<< vet[menor] << "\n";
         contador = contador + vet[menor];                                    //Incrementar o contador com o peso do vertice adicionado na AGM
         vet[menor] = -1;
         c++;
