@@ -166,7 +166,8 @@ int main(){
         double contador = PRIM(qtdPessoas, matrizDistancia);    //Metodo adaptado do PRIM para retornar a distancia da AGM(Arvore Geradora Minima) encontrada
 
         cout.precision(2);
-        cout << fixed << (contador/100) << "\n";                        //Print da distancia total
+        cout << fixed;
+        cout << (contador/100) << "\n";                        //Print da distancia total
 
         qtdCasos--;
     }

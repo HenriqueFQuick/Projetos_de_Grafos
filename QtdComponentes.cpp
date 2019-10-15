@@ -1,29 +1,6 @@
-/*
-*Autor: Henrique Fernandes Viana Mendes
-*Data: 10/09/2019
-*Programa para contar quantos componentes existem no grafo utilizando o algoritmo Busca por Profundidade
-*
-*Funcionamento:
-*    Busca por profundidade adaptado:
-*        Todos os vertices sao brancos, quando o algoritmo passa pelo vertice, ele se torna cinza
-*        e comeca a passar em todos os vertices adjacentes a ele, quando todos forem verificados,
-*        este se torna preto. o metodo continua ate que todos os vertices de um componente forem
-*        pretos, ou seja, se ele sair do metodo e tornar a voltar, significa que existe mais de um
-*        componente.
-*Entrada:
-*   Numero de grafos, numero de vertices, numero de arestas, 1 linha para cada aresta, indicando qual aresta eh ("a b"  -> aresta de a para b // b para a)
-*/
 #include <iostream>
 using namespace std;
 
-/* 
-*Metodo para percorrer cada componente do grafo
-*Parametros: 
-*   v       = vertice atual
-*   matriz  = matriz de adjacencias do grafo
-*   vertice = vetor de cor de cada vertice
-*   tamanho  = tamanho da matriz 
-*/
 int* percorreMatriz(int v, int **matriz, int *vertice, int tamanho, int* vetor){
 
     vertice[v] = 1;                                             //a cor do vertice atual passa a ser cinza
@@ -41,11 +18,6 @@ int* percorreMatriz(int v, int **matriz, int *vertice, int tamanho, int* vetor){
     return vetor;
 }
 
-/*
-*Metodo para criar e inicializar a matriz de adjacencias
-*Parametros:
-*   tamanho = tamanho da matriz
-*/
 int** criaMatriz(int tamanho){
 
     int** matriz = new int*[100];                   //declaracao da matriz
@@ -61,12 +33,6 @@ int** criaMatriz(int tamanho){
     return matriz;
 }
 
-
-/*
-*Metodo para criar e inicializar o vetor de cores
-*Parametros:
-*    tamanho = tamanho do vetor ( quantidade de vertices de grafo )
-*/
 int* criaVetor(int tamanho){
     int* vertice = new int[tamanho];            //declaracao e inicializacao do vetor de cores do grafo              
         for(int i = 0; i< tamanho; i++){        //(0 - branco,   1 - cinza,   2 - preto) 
@@ -76,33 +42,6 @@ int* criaVetor(int tamanho){
 }
 
 
-/*
-*Metodo para printar a matriz de adjacencias ( nao eh utilizado no codigo )( apenas para visualizacao )
-*Se quiser utiliza-lo, eh so colocar na main, depois de acrescentadas as arestas na matriz ( linha 140 nesse codigo )
-*Parametros:
-*   matriz = a matriz de adjacencias desejada
-*   tamanho = tamanho da matriz
-*/
-void printMatriz(int **matriz, int tamanho){
-    cout << "\n    ";
-    for(int i = 0; i < tamanho; i ++) cout << (char)(97 + i) << " ";
-    cout << "\n\n";
-    for(int i = 0; i < tamanho; i++){
-        cout << (char)(97 + i) << "   ";           
-            for(int j = 0; j < tamanho; j++){
-                cout << matriz[i][j] << " ";
-            }
-            cout << "\n";
-    }
-    cout << "\n";
-}
-
-/*
-*Metodo para acrescentar as arestas existentes na matriz de adjacencias
-*Parametros;
-*   matriz = matriz de adjacencias
-*   e = quantidade de arestas existentes no grafo
-*/
 void acrescentaArestas(int** matriz, int e){
     while(e > 0){                               //executa para a quantidade de arestas existentes
 
@@ -133,7 +72,6 @@ int* ordenarVetor(int* vetor, int tam){
             swap(vetor[min], vetor[i]);
     }
 }
-
 
 int main(){
 
@@ -176,7 +114,8 @@ int main(){
                 cout <<"\n";
             }
         }
-        cout << cont << " connected components\n\n";
+        cout << cont; 
+        cout << " connected components\n\n";
 
     c++;    
     }
