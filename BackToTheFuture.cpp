@@ -4,6 +4,7 @@ verificar se ainda faltam passageiros, se sim, excluir do grafo o caminho encont
 tenham chegado ou ate nao ter mais caminho entre os 2 vertices desejados
 */
 #include<iostream>
+#include <string>
 using namespace std;
 
 void printMatriz(int **matriz, int tamanho){
@@ -21,7 +22,19 @@ void printMatriz(int **matriz, int tamanho){
     cout << "\n";
 }
 
+void printVetor(int* v, int tam){
+    for(int i = 0; i < tam;i++){
+        cout<<v[i]<<" ";
+    }
+    cout<<"\n";
+}
+
 int menorValor(int* v, int tamanho){
+
+    /*for(int i = 0; i < tamanho; i++){
+            cout<<v[i]<<" ";
+        }*/
+
     int menor = 999999999;
     int a = 0;
     for(int i = 0; i < tamanho; i++){
@@ -43,31 +56,56 @@ int* inicializaVetor(int vertices, int valor){
 }
 
 int Djisktra(int** matriz, int vertices){
+
+    printMatriz(matriz, vertices);
     int* vetValores = inicializaVetor(vertices, 999999999);
-    vetValores[0] = -1;
+    int* vetValores2 = inicializaVetor(vertices, 999999999);
+    vetValores[0] = 0;
+    vetValores2[0] = 0;
     int* vetPai = inicializaVetor(vertices, -1);
     int menor = 0; 
     int c = 0;
-
+    //printVetor(vetValores2, vertices);
     while(c < vertices){
         for(int i = 0; i < vertices; i++){
             if((vetValores[i] != -1) && (matriz[menor][i] != -1) && (i != menor) && (vetValores[i] > vetValores[menor] + matriz[menor][i])){
                 vetValores[i] = vetValores[menor] + matriz[menor][i];
+                vetValores2[i] = vetValores2[menor] + matriz[menor][i];
                 vetPai[i] = menor;
             }
         }
-
+        printVetor(vetValores2, vertices);
+        printVetor(vetPai, vertices);
+        cout<<"\n";
         vetValores[menor] = -1;
         menor = menorValor(vetValores, vertices);
-        matriz[vetPai[menor]][menor] = -1;
+        //cout<<"\n"<<menor<<"\n";
+        //if(menor != 0){
+        //    matriz[vetPai[menor]][menor] = -1;
+        //}
+        
         c++;
     }
-    int retorno = 0;
-    for(int i = 0; i < vertices; i++){
-        if(vetValores[i] != -1){
-            retorno = -1;
-        }
+    int retorno = -1;
+    int soma = 0;
+    int i = vertices-1;
+    soma = vetValores2[vertices-1];
+    cout<<"Soma: "<<soma<<"\n";
+    while(i != -1){
+        if(vetPai[i] != -1){
+            matriz[vetPai[i]][i] = -1;
+            matriz[i][vetPai[i]] = -1;
+            i = vetPai[i];
+        }else if(i == 0){
+                i = -1;
+                retorno = soma;
+            }else {
+                i = -1;
+                retorno = -1;
+            }
     }
+    cout<<"Soma: "<<soma<<"\n";
+    cout<<"Retorno: "<<retorno<<"\n";
     return retorno;
 
 }
@@ -82,6 +120,7 @@ int** colocaValores(int** matriz, int arestas, int tamanho){
         cin >> C;
 
         matriz[A-1][B-1] = C;
+        matriz[B-1][A-1] = C;
        
         arestas = arestas-1;
     }
@@ -125,30 +164,37 @@ int** criaMatriz(int vertices, int arestas){
 
 int main(){
 
-    int cidades, rotas;
-    cin >> cidades;
-    cin >> rotas;
+        int cidades, rotas;
+        int instancia = 1;
+        while(scanf("%d", &cidades) != EOF){
+            //cin >> cidades;
+            cin >> rotas;
 
-    int instancia = 1;
+            int** matriz = criaMatriz(cidades, rotas);
 
-    int** matriz = criaMatriz(cidades, rotas);
+            int D, K;
+            cin >> D;
+            cin >> K;
 
-    int D, K;
-    cin >> D;
-    cin >> K;
+            //printMatriz(matriz, cidades);
 
-    //printMatriz(matriz, cidades);
+            int valor = 0;
+            while(D > 0){
+                if(D >K){
+                    valor = valor + (Djisktra(matriz, cidades)*K);
+                }else valor = valor + (Djisktra(matriz, cidades)*D);
+                D = D - K;
+                if(valor==-1){
+                    D = -1;
+                }
+                cout<<"D: "<< D << "\n";
+                cout<<"valor: "<<valor<<"\n";
+            }
 
-    int valor = -1;
-    while(D > 0){
-        valor = Djisktra(matriz, cidades);
-        cout<< "AKI";
-        D = D - K;
-    }
+            cout << "Instancia " << instancia << "\n";
 
-    cout << "Instancia " << instancia;
-
-    (valor=-1) ? cout<<"impossivel\n" : cout<<valor<<"\n"; 
-
+            (valor==-1) ? cout<<"impossivel\n" : cout << valor << "\n"; 
+            instancia = instancia + 1;
+        }
     return 0;
 }
