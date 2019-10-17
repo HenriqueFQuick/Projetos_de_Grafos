@@ -57,7 +57,7 @@ int* inicializaVetor(int vertices, int valor){
 
 int Djisktra(int** matriz, int vertices){
 
-    printMatriz(matriz, vertices);
+    //printMatriz(matriz, vertices);
     int* vetValores = inicializaVetor(vertices, 999999999);
     int* vetValores2 = inicializaVetor(vertices, 999999999);
     vetValores[0] = 0;
@@ -74,9 +74,9 @@ int Djisktra(int** matriz, int vertices){
                 vetPai[i] = menor;
             }
         }
-        printVetor(vetValores2, vertices);
-        printVetor(vetPai, vertices);
-        cout<<"\n";
+        //printVetor(vetValores2, vertices);
+        //printVetor(vetPai, vertices);
+        //cout<<"\n";
         vetValores[menor] = -1;
         menor = menorValor(vetValores, vertices);
         //cout<<"\n"<<menor<<"\n";
@@ -90,7 +90,7 @@ int Djisktra(int** matriz, int vertices){
     int soma = 0;
     int i = vertices-1;
     soma = vetValores2[vertices-1];
-    cout<<"Soma: "<<soma<<"\n";
+    //cout<<"Soma: "<<soma<<"\n";
     while(i != -1){
         if(vetPai[i] != -1){
             matriz[vetPai[i]][i] = -1;
@@ -104,8 +104,8 @@ int Djisktra(int** matriz, int vertices){
                 retorno = -1;
             }
     }
-    cout<<"Soma: "<<soma<<"\n";
-    cout<<"Retorno: "<<retorno<<"\n";
+    //cout<<"Soma: "<<soma<<"\n";
+    //cout<<"Retorno: "<<retorno<<"\n";
     return retorno;
 
 }
@@ -187,13 +187,13 @@ int main(){
                 if(valor==-1){
                     D = -1;
                 }
-                cout<<"D: "<< D << "\n";
-                cout<<"valor: "<<valor<<"\n";
+                //cout<<"D: "<< D << "\n";
+                //cout<<"valor: "<<valor<<"\n";
             }
 
-            cout << "Instancia " << instancia << "\n";
+            cout << "Instancia " << instancia << "\n\n";
 
-            (valor==-1) ? cout<<"impossivel\n" : cout << valor << "\n"; 
+            (valor==-1) ? cout<<"impossivel\n\n\n\n" : cout << valor << "\n\n\n\n"; 
             instancia = instancia + 1;
         }
     return 0;

@@ -21,14 +21,14 @@ using namespace std;
 *   matriz = a matriz de adjacencias desejada
 *   tamanho = tamanho da matriz
 */
-void printMatriz(int **matriz, int tamanho){
+void printMatriz(double **matriz, int tamanho){
     cout << "\n    ";
     for(int i = 0; i < tamanho; i ++) cout << (char)(97 + i) << " ";
     cout << "\n\n";
     for(int i = 0; i < tamanho; i++){
         cout << (char)(97 + i) << "   ";           
             for(int j = 0; j < tamanho; j++){
-                cout << matriz[i][j] << " ";
+                cout << matriz[i][j] << " | ";
             }
             cout << "\n";
     }
@@ -162,11 +162,13 @@ int main(){
 
         double** matrizDistancia = criaMatriz(x,y,qtdPessoas);  //Cria e inicializa a matriz com as distancias entre cada ponto
 
+        printMatriz(matrizDistancia, qtdPessoas);
+
         double contador = PRIM(qtdPessoas, matrizDistancia);    //Metodo adaptado do PRIM para retornar a distancia da AGM(Arvore Geradora Minima) encontrada
 
         cout.precision(2);
         cout << fixed;
-        cout << (contador/100) << "\n";                        //Print da distancia total
+        cout << (contador/100) << "\n\n";                        //Print da distancia total
 
         qtdCasos--;
     }
