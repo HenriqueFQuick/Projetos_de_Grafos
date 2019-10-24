@@ -43,10 +43,8 @@ void printMatriz(double **matriz, int tamanho){
 */
 int menorValor(double* v, int tamanho){
     double menor = 999999999.0;
-    //cout << "tamanho: " << tamanho << "\n";
     int a = 0;
     for(int i = 0; i < tamanho; i++){
-        //cout <<"vetor["<<i<<"] :" << v[i] << " ";
         if((v[i] != -1) && (v[i] < menor)){
             menor = v[i];
             a = i;
@@ -115,13 +113,7 @@ double** criaMatriz(int* x, int* y, int tamanho){
         for(int j = 0; j < tamanho; j++){
             matriz[i][j] = (double)sqrt(pow((x[j] - x[i]), 2)+pow((y[j] - y[i]),2));    //Inicializa a matriz com as distancias de cada ponto
         }                                                                       //Sendo calcladas com a formula sqrt((X2-X1)^2 + (Y2-Y1)^2)
-    }     
-    /*for(int i = 0; i < tamanho; i++){           
-        for(int j = 0; j < tamanho; j++){
-            cout << matriz[i][j] << " ";
-        }
-        cout <<"\n";                                                                       
-    }*/                                                                 
+    }                                                                
     return matriz;
 }
 
