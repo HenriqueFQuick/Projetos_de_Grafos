@@ -31,10 +31,6 @@ void printVetor(int* v, int tam){
 
 int menorValor(int* v, int tamanho){
 
-    /*for(int i = 0; i < tamanho; i++){
-            cout<<v[i]<<" ";
-        }*/
-
     int menor = 999999999;
     int a = 0;
     for(int i = 0; i < tamanho; i++){
@@ -57,7 +53,6 @@ int* inicializaVetor(int vertices, int valor){
 
 int Djisktra(int** matriz, int vertices){
 
-    //printMatriz(matriz, vertices);
     int* vetValores = inicializaVetor(vertices, 999999999);
     int* vetValores2 = inicializaVetor(vertices, 999999999);
     vetValores[0] = 0;
@@ -65,7 +60,6 @@ int Djisktra(int** matriz, int vertices){
     int* vetPai = inicializaVetor(vertices, -1);
     int menor = 0; 
     int c = 0;
-    //printVetor(vetValores2, vertices);
     while(c < vertices){
         for(int i = 0; i < vertices; i++){
             if((vetValores[i] != -1) && (matriz[menor][i] != -1) && (i != menor) && (vetValores[i] > vetValores[menor] + matriz[menor][i])){
@@ -74,15 +68,8 @@ int Djisktra(int** matriz, int vertices){
                 vetPai[i] = menor;
             }
         }
-        //printVetor(vetValores2, vertices);
-        //printVetor(vetPai, vertices);
-        //cout<<"\n";
         vetValores[menor] = -1;
         menor = menorValor(vetValores, vertices);
-        //cout<<"\n"<<menor<<"\n";
-        //if(menor != 0){
-        //    matriz[vetPai[menor]][menor] = -1;
-        //}
         
         c++;
     }
@@ -90,7 +77,6 @@ int Djisktra(int** matriz, int vertices){
     int soma = 0;
     int i = vertices-1;
     soma = vetValores2[vertices-1];
-    //cout<<"Soma: "<<soma<<"\n";
     while(i != -1){
         if(vetPai[i] != -1){
             matriz[vetPai[i]][i] = -1;
@@ -104,8 +90,6 @@ int Djisktra(int** matriz, int vertices){
                 retorno = -1;
             }
     }
-    //cout<<"Soma: "<<soma<<"\n";
-    //cout<<"Retorno: "<<retorno<<"\n";
     return retorno;
 
 }
@@ -124,16 +108,6 @@ int** colocaValores(int** matriz, int arestas, int tamanho){
        
         arestas = arestas-1;
     }
-
-    /*for(int i = 0; i < tamanho; i ++) { 
-            for(int j = 0; j < tamanho; j++){
-                cout << matriz[i][j] << " ";
-            }
-            cout << "\n";
-    }
-    cout << "\n";*/
-
-
     return matriz;
 }
 
@@ -167,7 +141,7 @@ int main(){
         int cidades, rotas;
         int instancia = 1;
         while(scanf("%d", &cidades) != EOF){
-            //cin >> cidades;
+
             cin >> rotas;
 
             int** matriz = criaMatriz(cidades, rotas);
@@ -176,19 +150,16 @@ int main(){
             cin >> D;
             cin >> K;
 
-            //printMatriz(matriz, cidades);
-
             int valor = 0;
             while(D > 0){
-                if(D >K){
+                if(D > K){
                     valor = valor + (Djisktra(matriz, cidades)*K);
                 }else valor = valor + (Djisktra(matriz, cidades)*D);
                 D = D - K;
-                if(valor==-1){
+                if(Djisktra(matriz, cidades)==-1){
+                    valor = -1;
                     D = -1;
                 }
-                //cout<<"D: "<< D << "\n";
-                //cout<<"valor: "<<valor<<"\n";
             }
 
             cout << "Instancia " << instancia << "\n\n";
