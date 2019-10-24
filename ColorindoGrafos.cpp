@@ -24,6 +24,14 @@ void printMatriz(int **matriz, int tamanho){
     cout << "\n";
 }
 
+
+/*
+*Metodo para verificar se duas matrizes sao iguais
+*Parametros:
+*   m1 = primeira matriz
+*   m2 = segunda matriz
+*   vertices = quantidade de vertices no grafo
+*/
 bool verificaMatriz(int** m1, int**m2, int vertices){
     bool teste = true;
     for(int i = 0; i < vertices; i++){
@@ -34,6 +42,12 @@ bool verificaMatriz(int** m1, int**m2, int vertices){
     return teste;
 }
 
+/*
+*Metodo para copiar os valores de uma matriz para outra
+*Parametros:
+*   **matriz = matriz a ser copiada
+*   vertices = quantidade de vertices no grafo e na matriz
+*/
 int** copiaMatriz(int** matriz, int vertices){
     int** m = new int*[100];
     for(int i = 0; i < vertices; i++){
@@ -52,6 +66,11 @@ int** copiaMatriz(int** matriz, int vertices){
 
 /*
 *Metodo para adicionar n arestas no grafo com a condicao de nao poder adicionar mais cores aos vertices
+*Parametros:
+*   **matriz = matriz de adjacencias usada no metodo
+*   *vetCor = vetor com as cores de cada vertice
+*   qtdArestas = quantidade de arestas existentes no grafo
+*   vertices = quantidade de vertices existentes no grafo
 */
 bool metodo(int** matriz, int* vetCor, int qtdArestas, int vertices){
 
@@ -76,8 +95,6 @@ bool metodo(int** matriz, int* vetCor, int qtdArestas, int vertices){
     }
     return verificaMatriz(matriz, m, vertices);
 }
-
-
 
 /*
 *Metodo para colocar as adjacencias na matriz (baseada na leitura do usuario)
@@ -167,6 +184,15 @@ int* criaVetor(int tamanho){
     return vertice;                             
 }
 
+/*
+*Metodo para percorrer todos os vertices de um componente do grafo ( Busca em profundidade)
+*Parametros:
+*   v = vertice inicial do componente
+*   **matriz = matriz de adjacencias do grafo
+*   *vertice = vetor que guarda a cor de cada vertice na busca em profundidade
+*   tamanho = tamanho da matriz
+*   vetor = vetor auxiliar
+*/
 int* percorreMatriz(int v, int **matriz, int *vertice, int tamanho, int* vetor){
 
     vertice[v] = 1;                                             //a cor do vertice atual passa a ser cinza
@@ -221,8 +247,9 @@ int main(){
         cin>>K;                                 //qtd de cores existentes
 
         int* cor = criaVetorCores(N);           //cria o vetor coms as cores de cara vertice
-        int** matriz = criaMatriz(N,M);         //cria a amtriz de adjacencias
-        if(metodo(matriz,cor,P,N)){
+        int** matriz = criaMatriz(N,M);         //cria a matriz de adjacencias
+
+        if(metodo(matriz,cor,P,N)){             //tenta adicionar as arestas desejadas -> retorna false se concluiu com sucesso
             cout<<"N\n\n";
         }else{
             int cont = 0;
