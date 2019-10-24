@@ -152,11 +152,12 @@ int main(){
 
             int valor = 0;
             while(D > 0){
+                int a = Djisktra(matriz, cidades);
                 if(D > K){
-                    valor = valor + (Djisktra(matriz, cidades)*K);
-                }else valor = valor + (Djisktra(matriz, cidades)*D);
+                    valor = valor + a*K;
+                }else valor = valor + a*D;
                 D = D - K;
-                if(Djisktra(matriz, cidades)==-1){
+                if(a == -1){
                     valor = -1;
                     D = -1;
                 }
