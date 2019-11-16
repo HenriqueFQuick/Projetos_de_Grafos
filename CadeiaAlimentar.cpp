@@ -1,3 +1,6 @@
+/*
+TODO - comentarios no codigo
+*/
 #include <iostream>
 #include <stdbool.h>
 using namespace std;
